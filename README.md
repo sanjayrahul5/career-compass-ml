@@ -1,3 +1,7 @@
-# Career Compass ML Component
+# Career Compass ML
 
-The Career Compass ML Component is a machine learning application designed to provide career recommendations based on input data. It uses a trained machine learning model to predict suitable career options for individuals.
+ML components required in Career Compass are designed here. 
+
+## Features
+
+- It uses a trained machine learning model to predict suitable career options for individuals.
