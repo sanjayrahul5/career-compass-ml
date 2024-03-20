@@ -42,12 +42,8 @@ def result():
                 final_res[key] = value
                 print('final_res[index]:', final_res[key])
 
-        # Prepare and return the response
-        job = {}
-        data1 = predictions[0]
-        print(data1)
-        return jsonify({'predictions': predictions.tolist()})
+        return jsonify({'prediction': predictions[0]})
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)
