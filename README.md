@@ -1,6 +1,6 @@
 # Career Compass ML
 
-ML components required in Career Compass are designed here. 
+ML components required in Career Compass app are hosted here. 
 
 ## Features
 
