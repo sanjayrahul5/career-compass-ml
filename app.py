@@ -5,51 +5,45 @@ import numpy as np
 app = Flask(__name__)
 
 
-@app.route('/predict', methods=['POST', 'GET'])
+@app.route('/predict', methods=['POST'])
 def result():
     if request.method == 'POST':
-        result = request.form
-        i = 0
-        print(result)
-        res = result.to_dict(flat=True)
-        print("res:", res)
-        arr1 = res.values()
-        arr = ([value for value in arr1])
+        payload = request.get_json()
+        print(payload)
 
+        # Extract values from JSON data
+        arr = [value for value in payload.values()]
         data = np.array(arr).astype(float)
-
         data = data.reshape(1, -1)
         print(data)
-        loaded_model = pickle.load(open("careerlast.pkl", "rb"))
-        predictions = loaded_model.predict(data)
 
+        # Load the trained model
+        loaded_model = pickle.load(open("careerlast.pkl", "rb"))
+
+        # Make predictions
+        predictions = loaded_model.predict(data)
         print("pred --> ", predictions)
+
         pred = loaded_model.predict_proba(data)
         print(pred)
 
+        # Apply threshold to predictions
         pred = pred > 0.05
 
-        i = 0
-        j = 0
-        index = 0
+        # Process predictions
         res = {}
         final_res = {}
-        while j < 16:
-            if pred[i, j]:
-                res[index] = j
-                index += 1
-            j += 1
+        for j in range(16):
+            if pred[0, j]:
+                res[j] = j
 
-        index = 0
-        for key, values in res.items():
-            if values != predictions[0]:
-                final_res[index] = values
-                print('final_res[index]:', final_res[index])
-                index += 1
+        for key, value in res.items():
+            if value != predictions[0]:
+                final_res[key] = value
+                print('final_res[index]:', final_res[key])
 
+        # Prepare and return the response
         job = {}
-        index = 1
-
         data1 = predictions[0]
         print(data1)
         return jsonify({'predictions': predictions.tolist()})
